@@ -2,7 +2,7 @@
 
 const login = async (email, password) => {
   try {
-    const res = await axios.post('http://127.0.0.1:3000/api/v1/users/login', {
+    const res = await axios.post('/api/v1/users/login', {
       email,
       password,
     });
@@ -22,7 +22,6 @@ document.querySelector('.form').addEventListener('submit', e => {
   e.preventDefault();
 
   const email = document.getElementById('email').value;
-  console.log(document.getElementById('password'));
   const password = document.getElementById('password').value;
 
   login(email, password);

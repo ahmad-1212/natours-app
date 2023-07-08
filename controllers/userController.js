@@ -21,8 +21,9 @@ const factory = require('./handlerFactory');
 const deletePreviousImage = imageName => {
   const imagePath = path.join(__dirname, '../public/img/users', imageName);
   fs.unlink(imagePath, err => {
-    if (err) return;
-    console.log('Image deleted');
+    if (err) {
+      return console.log('There was an error while deleting an Image', err);
+    }
   });
 };
 

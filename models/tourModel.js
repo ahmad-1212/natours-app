@@ -137,7 +137,6 @@ tourSchema.virtual('reviews', {
 //? DOCUMENT MIDDLEWARE: it runs only before .save() and .create() method
 // .pre() runs before the document is saved to db and the this keyword is pointing to the documet that is about to be saved in db
 tourSchema.pre('save', function (next) {
-  console.log('slugifying');
   this.slug = slugify(this.name, { lower: true });
   // console.log(this);
   next();
@@ -177,10 +176,10 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds `);
-  next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds `);
+//   next();
+// });
 
 //? AGGREGATION MIDDLEWARE
 // tourSchema.pre('aggregate', function (next) {

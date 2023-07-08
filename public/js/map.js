@@ -18,7 +18,6 @@ const latLngs = [];
 const markers = [];
 
 locations.forEach(loc => {
-  console.log(loc.coordinates);
   const [lng, lat] = loc.coordinates;
   const customIcon = L.icon({
     iconUrl: '../img/pin.png',
