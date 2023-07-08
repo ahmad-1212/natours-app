@@ -4,11 +4,12 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const { JSDOM } = require('jsdom');
+const createDOMPurify = require('dompurify');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -58,7 +59,25 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 
 // Data sanitization against XSS
-app.use(xss());
+const { window } = new JSDOM('');
+const DOMPurify = createDOMPurify(window);
+
+app.use((req, res, next) => {
+  // Sanitize request body
+  if (req.body) {
+    Object.keys(req.body).forEach(key => {
+      req.body[key] = DOMPurify.sanitize(req.body[key]);
+    });
+  }
+
+  // Sanitize request query parameters
+  if (req.query) {
+    Object.keys(req.query).forEach(key => {
+      req.query[key] = DOMPurify.sanitize(req.query[key]);
+    });
+  }
+  next();
+});
 
 // Prevent parameter pollution
 app.use(
