@@ -17,18 +17,20 @@ const app = require('./app');
 // );
 
 const DB = process.env.LOCAL_DATABASE;
+const port = process.env.PORT || 3000;
+let server;
 
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log('DB connection successfull!'));
-
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
+  .then(() => {
+    console.log('DB connection successfull!');
+    server = app.listen(port, () => {
+      console.log(`App running on port ${port}...`);
+    });
+  });
 
 // If in case some promise is rejected and it is not handled
 process.on('unhandledRejection', err => {
