@@ -61,7 +61,7 @@ app.use('/api', limiter);
 // And as soon as the request hits the middleware express.json() the body is converted to JSON
 app.post(
   '/webhook-checkout',
-  express.raw({ type: 'application/octet-stream' }),
+  express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
 
